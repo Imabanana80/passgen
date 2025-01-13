@@ -1,13 +1,17 @@
 package main
 
 import (
-	"bufio"
+	_ "embed"
 	"fmt"
 	"math/rand"
-	"os"
+	"strings"
 	"time"
+
 	"github.com/atotto/clipboard"
 )
+
+//go:embed wordsA.txt
+var wordsA string
 
 func main() {
     random := rand.New(rand.NewSource(time.Now().UnixNano()))
@@ -15,20 +19,12 @@ func main() {
 }
 
 func gen(random *rand.Rand) {
-    file, _ := os.Open("wordsA.txt")
-    defer file.Close()
-    
+    var lines []string = strings.Split(strings.ReplaceAll(wordsA, "\r\n", "\n"), "\n")
     var chars = []string{"1", "2", "3", "4", "5", "6", "7", "8", "9", "0",
         "!", "?", "@", "#", "$", "%", "^", "&", "*", "-", "_", "+", "=", "/", "~"}
     var caps = []string{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"}
-    var lines []string
-    scanner := bufio.NewScanner(file)
-    for (scanner.Scan()) {
-        lines = append(lines, scanner.Text())
-    }
-    
     password := ""
-    rounds := 3 + random.Intn(3);  
+    rounds := 4 + random.Intn(2);  
     for i := 0; i<rounds; i++ {
         password += lines[random.Intn(len(lines))]
         for o := 0; o < random.Intn(2); o++ {
