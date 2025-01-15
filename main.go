@@ -15,7 +15,9 @@ var words string
 
 func main() {
     random := rand.New(rand.NewSource(time.Now().UnixNano()))
-    gen(random) 
+    for i := 0; i<100; i++ {
+        gen(random) 
+    } 
 }
 
 func gen(random *rand.Rand) {
@@ -24,9 +26,9 @@ func gen(random *rand.Rand) {
         "!", "?", "@", "#", "$", "%", "^", "&", "*", "-", "_", "+", "=", "/", "~"}
     var caps = []string{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"}
     password := ""
-    for i := 0; i<4; i++ {
+    for i := 0; i<5; i++ {
         password += lines[random.Intn(len(lines))]
-        for o := 0; o < random.Intn(1); o++ {
+        for o := 0; o < random.Intn(2); o++ {
             password += caps[random.Intn(len(caps))]
         }
         password += chars[random.Intn(len(chars))]
@@ -35,5 +37,6 @@ func gen(random *rand.Rand) {
         }
     }
     clipboard.WriteAll(password)
+    fmt.Println(password)
     fmt.Println("Copied to clipboard")
 }
